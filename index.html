@@ -595,24 +595,31 @@ function showRecipe(name,day,macros,meal){
    <button type="button" class="primary recipe-register ${already?'registered':''}" data-meal-type="${escHtml(meal?meal[0]:mealType)}" data-meal-name="${escHtml(name)}" data-cal="${meal?meal[2]:0}" data-p="${meal?meal[3]:0}" data-c="${meal?meal[4]:0}" data-f="${meal?meal[5]:0}">${already?'✓ Nutrición registrada':'Registrar nutrición'}</button>`;
  $('modalContent').className='recipe-modal-content';
  $('detailModal').classList.add('show');
- const registerBtn=$('modalContent').querySelector('.recipe-register');
- if(registerBtn && !already){
-   registerBtn.addEventListener('click',()=>registerMenuMeal(registerBtn.dataset.mealType,registerBtn.dataset.mealName,Number(registerBtn.dataset.cal),Number(registerBtn.dataset.p),Number(registerBtn.dataset.c),Number(registerBtn.dataset.f)),{once:true});
+ const modalContent=$('modalContent');
+ if(!already){
+   modalContent.onclick=function(ev){
+     const btn=ev.target.closest('.recipe-register');
+     if(!btn) return;
+     ev.preventDefault();
+     ev.stopPropagation();
+     registerMenuMeal(btn.dataset.mealType,btn.dataset.mealName,Number(btn.dataset.cal),Number(btn.dataset.p),Number(btn.dataset.c),Number(btn.dataset.f),btn);
+   };
+ } else {
+   modalContent.onclick=null;
  }
 }
-function registerMenuMeal(mealType,name,cal,p,c,f){
+function registerMenuMeal(mealType,name,cal,p,c,f,buttonEl){
  const date=$('menuDate').value||today;
  const key=menuKey(date,mealType);
  const existing=db.foods.find(x=>x.date===date && ((x.menuKey && x.menuKey===key) || (x.meal===mealType && x.name===name)));
  if(existing){
-   alert('Esta comida ya está registrada para esta fecha.');
+   if(buttonEl){buttonEl.textContent='✓ Nutrición registrada';buttonEl.classList.add('registered');buttonEl.disabled=true;}
    return;
  }
  db.foods.push({id:Date.now(),date,meal:mealType,name,cal,p,c,f,menuKey:key});
  save();
+ if(buttonEl){buttonEl.textContent='✓ Nutrición registrada';buttonEl.classList.add('registered');buttonEl.disabled=true;}
  renderMenu();
- const btn=document.querySelector('.recipe-register');
- if(btn){btn.textContent='✓ Nutrición registrada';btn.classList.add('registered');}
 }
 
 function showExercise(name){
