@@ -71,7 +71,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
 html{background:var(--bg);scroll-behavior:smooth}
 body{min-height:100vh;-webkit-tap-highlight-color:transparent;overscroll-behavior-y:none}
 button,a,input,select,textarea{touch-action:manipulation}
-.app-shell{min-height:100vh}
+.app-shell{min-height:0}
 .app-header{background:linear-gradient(145deg,#5b21b6 0%,#7c3aed 55%,#9333ea 100%);padding:calc(12px + env(safe-area-inset-top)) 16px 18px;color:#fff;position:sticky;top:0;z-index:20;box-shadow:0 5px 20px #4c1d9530}
 .app-header-row{display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:1050px;margin:auto}
 .app-brand{display:flex;align-items:center;gap:11px;min-width:0}.app-logo{width:42px;height:42px;border-radius:14px;background:#ffffff24;border:1px solid #ffffff35;display:grid;place-items:center;font-size:23px;box-shadow:inset 0 1px #fff3}.app-title{font-size:20px;font-weight:850;line-height:1.1}.app-subtitle{font-size:12px;opacity:.82;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px}
@@ -574,9 +574,13 @@ function showRecipe(name,day,macros,meal){
      <div class="recipe-section-title">Preparación</div>
      <ol class="recipe-steps">${r.steps.map(x=>`<li>${escHtml(x)}</li>`).join('')}</ol>
      <div class="recipe-links"><a href="${r.video}" target="_blank" rel="noopener noreferrer">▶ Ver receta en video</a><a href="${images}" target="_blank" rel="noopener noreferrer">📷 Ver fotos</a></div>
-     <button type="button" class="primary recipe-register ${already?'registered':''}" onclick="registerMenuMeal(${meal?JSON.stringify(meal[0]):JSON.stringify(mealType)},${meal?JSON.stringify(name):JSON.stringify(name)},${meal?meal[2]:0},${meal?meal[3]:0},${meal?meal[4]:0},${meal?meal[5]:0})">${already?'✓ Nutrición registrada':'Registrar nutrición'}</button>
+     <button type="button" class="primary recipe-register ${already?'registered':''}" data-meal-type="${escHtml(meal?meal[0]:mealType)}" data-meal-name="${escHtml(name)}" data-cal="${meal?meal[2]:0}" data-p="${meal?meal[3]:0}" data-c="${meal?meal[4]:0}" data-f="${meal?meal[5]:0}">${already?'✓ Nutrición registrada':'Registrar nutrición'}</button>
    </div>`;
  $('detailModal').classList.add('show');
+ const registerBtn=$('modalContent').querySelector('.recipe-register');
+ if(registerBtn && !already){
+   registerBtn.addEventListener('click',()=>registerMenuMeal(registerBtn.dataset.mealType,registerBtn.dataset.mealName,Number(registerBtn.dataset.cal),Number(registerBtn.dataset.p),Number(registerBtn.dataset.c),Number(registerBtn.dataset.f)),{once:true});
+ }
 }
 function registerMenuMeal(mealType,name,cal,p,c,f){
  const date=$('menuDate').value||today;
@@ -610,7 +614,7 @@ function clearData(){if(confirm('¿Borrar todos los registros? Esta acción no s
 let deferredInstallPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e;const b=$('installBtn');if(b){b.style.display='block';b.onclick=async()=>{if(!deferredInstallPrompt)return;deferredInstallPrompt.prompt();await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;b.style.display='none';};}});
 window.addEventListener('appinstalled',()=>{const b=$('installBtn');if(b)b.style.display='none';});
-if('serviceWorker' in navigator && location.protocol!=='file:'){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=6').then(r=>r.update()).catch(()=>{}));}
+if('serviceWorker' in navigator && location.protocol!=='file:'){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=7').then(r=>r.update()).catch(()=>{}));}
 function hideSplash(){const s=$('splash');if(s)s.classList.add('hide')}
 function bootApp(){
  try{
