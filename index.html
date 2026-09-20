@@ -83,7 +83,7 @@ button,a,input,select,textarea{touch-action:manipulation}
 .bottom-nav{backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
 .bottom-nav button{position:relative}.bottom-nav button.active:before{content:"";position:absolute;top:0;width:26px;height:3px;border-radius:0 0 5px 5px;background:var(--accent)}
 .more-sheet{position:fixed;inset:0;background:#00000055;z-index:60;display:none;align-items:flex-end}.more-sheet.show{display:flex}.more-panel{width:100%;background:#fff;border-radius:24px 24px 0 0;padding:14px 16px calc(18px + env(safe-area-inset-bottom));max-height:82vh;overflow:auto;box-shadow:0 -10px 35px #0003}.sheet-handle{width:42px;height:4px;border-radius:9px;background:#d1d5db;margin:0 auto 14px}.more-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.more-item{border:1px solid var(--line);background:#fafafa;border-radius:16px;padding:13px 8px;text-align:center;font-weight:750;color:var(--text)}.more-item span{display:block;font-size:23px;margin-bottom:5px}.sheet-close{width:100%;margin-top:12px}
-.splash{position:fixed;inset:0;background:linear-gradient(145deg,#5b21b6,#9333ea);z-index:100;display:flex;align-items:center;justify-content:center;color:#fff;transition:opacity .35s,visibility .35s}.splash.hide{opacity:0;visibility:hidden;pointer-events:none}.splash-box{text-align:center}.splash-icon{width:86px;height:86px;border-radius:28px;background:#ffffff1c;border:1px solid #ffffff35;display:grid;place-items:center;font-size:46px;margin:0 auto 18px;box-shadow:0 12px 30px #0002}.splash-title{font-size:27px;font-weight:900}.splash-text{opacity:.8;margin-top:6px}
+.splash{position:fixed;inset:0;background:linear-gradient(145deg,#5b21b6,#9333ea);z-index:100;display:flex;animation:splashSafety 2.8s forwards;align-items:center;justify-content:center;color:#fff;transition:opacity .35s,visibility .35s}@keyframes splashSafety{0%,70%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden;pointer-events:none}}.splash.hide{opacity:0;visibility:hidden;pointer-events:none;animation:none}.splash-box{text-align:center}.splash-icon{width:86px;height:86px;border-radius:28px;background:#ffffff1c;border:1px solid #ffffff35;display:grid;place-items:center;font-size:46px;margin:0 auto 18px;box-shadow:0 12px 30px #0002}.splash-title{font-size:27px;font-weight:900}.splash-text{opacity:.8;margin-top:6px}
 @media(max-width:600px){
  body{font-size:15px}.desktop-nav{display:none}.mobile-only{display:block}.app-header{position:relative}.app-header-row{align-items:center}.app-title{font-size:18px}.app-logo{width:40px;height:40px}.header-action{display:grid}.quick-actions{grid-template-columns:repeat(3,1fr);margin-top:0}.quick-action{min-height:78px}.quick-action span{font-size:22px}.quick-action small{font-size:10px}.home-hero{padding:15px}.card{box-shadow:0 2px 12px #00000008}.grid{grid-template-columns:1fr 1fr}.modal{padding-top:env(safe-area-inset-top)}.modal-box{max-height:94vh;border-radius:24px 24px 0 0;padding:18px 15px calc(22px + env(safe-area-inset-bottom))}.recipe-title{font-size:22px}.more-grid{grid-template-columns:repeat(3,1fr)} }
 @media(min-width:601px){.app-header{display:none}.desktop-nav{display:flex}}
@@ -246,14 +246,23 @@ button,a,input,select,textarea{touch-action:manipulation}
 <footer>Mi Progreso Fitness · Datos guardados localmente en tu navegador.</footer>
 
 <script>
-const KEY='mi_progreso_fitness_v1';
-let db=JSON.parse(localStorage.getItem(KEY)||'null')||{profile:{nombre:'',edad:43,sexo:'mujer',estatura:162,pesoInicial:68,cinturaInicial:75},foods:[],exercises:[],progress:[],photos:[]};
-db.photos=db.photos||[];
+const KEY='mi_progreso_fitness_v3';
+const DEFAULT_DB={profile:{nombre:'',edad:43,sexo:'mujer',estatura:162,pesoInicial:68,cinturaInicial:75},foods:[],exercises:[],progress:[],photos:[]};
+const cloneDefault=()=>JSON.parse(JSON.stringify(DEFAULT_DB));
+let db;
+try{db=JSON.parse(localStorage.getItem(KEY)||'null')||JSON.parse(localStorage.getItem('mi_progreso_fitness_v1')||'null')||cloneDefault()}catch(e){db=cloneDefault()}
+db.profile=Object.assign({},DEFAULT_DB.profile,db.profile||{});
+for(const k of ['foods','exercises','progress','photos']) db[k]=Array.isArray(db[k])?db[k]:[];
+function normalizeDb(){
+ db.profile=Object.assign({},DEFAULT_DB.profile,db.profile||{});
+ for(const k of ['foods','exercises','progress','photos']) db[k]=Array.isArray(db[k])?db[k]:[];
+}
+
 const $=id=>document.getElementById(id);
 const today=new Date().toISOString().slice(0,10);
-['progDate','photoDate','menuDate','workoutDate'].forEach(id=>$(id).value=today);
+['progDate','photoDate','menuDate','workoutDate'].forEach(id=>{const el=$(id);if(el)el.value=today});
 
-function save(){localStorage.setItem(KEY,JSON.stringify(db));renderAll()}
+function save(){normalizeDb();localStorage.setItem(KEY,JSON.stringify(db));renderAll()}
 function money(n){return Number(n||0).toLocaleString('es-MX',{maximumFractionDigits:0})}
 const NAV_ITEMS=[['inicio','Inicio','⌂'],['comida','Alimentación','🍽️'],['entreno','Entrenamiento','🏋️'],['progreso','Progreso','📈'],['perfil','Mi perfil','👤'],['semanal','Semanal','📅'],['fotos','Fotos','📷'],['temporizador','Descanso','⏱️'],['plan','Plan','🗓️'],['datos','Datos','💾']];
 function navInit(){
@@ -535,8 +544,23 @@ function clearData(){if(confirm('¿Borrar todos los registros? Esta acción no s
 let deferredInstallPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e;const b=$('installBtn');if(b){b.style.display='block';b.onclick=async()=>{if(!deferredInstallPrompt)return;deferredInstallPrompt.prompt();await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;b.style.display='none';};}});
 window.addEventListener('appinstalled',()=>{const b=$('installBtn');if(b)b.style.display='none';});
-if('serviceWorker' in navigator && location.protocol!=='file:'){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}
-navInit();renderAll();setTimeout(()=>$('splash')?.classList.add('hide'),650);
+if('serviceWorker' in navigator && location.protocol!=='file:'){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=3').then(r=>r.update()).catch(()=>{}));}
+function hideSplash(){const s=$('splash');if(s)s.classList.add('hide')}
+function bootApp(){
+ try{
+   normalizeDb();
+   navInit();
+   renderAll();
+ }catch(err){
+   console.error('Error al iniciar Mi Progreso Fitness:',err);
+   const t=document.querySelector('.splash-text');
+   if(t)t.textContent='Cargando…';
+ }finally{
+   setTimeout(hideSplash,450);
+ }
+}
+window.addEventListener('error',e=>{console.error(e.error||e.message);setTimeout(hideSplash,450)});
+bootApp();
 </script>
 </body>
 </html>
