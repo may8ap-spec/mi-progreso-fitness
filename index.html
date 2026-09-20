@@ -544,7 +544,7 @@ function clearData(){if(confirm('¿Borrar todos los registros? Esta acción no s
 let deferredInstallPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e;const b=$('installBtn');if(b){b.style.display='block';b.onclick=async()=>{if(!deferredInstallPrompt)return;deferredInstallPrompt.prompt();await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;b.style.display='none';};}});
 window.addEventListener('appinstalled',()=>{const b=$('installBtn');if(b)b.style.display='none';});
-if('serviceWorker' in navigator && location.protocol!=='file:'){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=3').then(r=>r.update()).catch(()=>{}));}
+if('serviceWorker' in navigator && location.protocol!=='file:'){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=5').then(r=>r.update()).catch(()=>{}));}
 function hideSplash(){const s=$('splash');if(s)s.classList.add('hide')}
 function bootApp(){
  try{

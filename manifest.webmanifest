@@ -1,8 +1,8 @@
 {
   "name": "Mi Progreso Fitness",
   "short_name": "Mi Progreso",
-  "start_url": "./?v=3",
-  "scope": "./",
+  "start_url": "https://may8ap-spec.github.io/mi-progreso-fitness/",
+  "scope": "https://may8ap-spec.github.io/mi-progreso-fitness/",
   "display": "standalone",
   "orientation": "portrait",
   "theme_color": "#6d28d9",
