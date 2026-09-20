@@ -56,7 +56,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
 </style>
 
 <style>
-.modal{position:fixed;inset:0;background:#0008;display:none;align-items:flex-end;justify-content:center;z-index:20}
+.modal{position:fixed;inset:0;background:#0008;display:none;align-items:flex-end;justify-content:center;z-index:90}
 .modal.show{display:flex}.modal-box{background:#fff;width:min(720px,100%);max-height:90vh;overflow:auto;border-radius:22px 22px 0 0;padding:20px}
 .modal-close{float:right;border:0;background:#f3f4f6;border-radius:50%;width:36px;height:36px;font-size:20px}
 .linkrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.linkrow a{display:inline-block;text-decoration:none;background:#ede9fe;color:#5b21b6;padding:10px 13px;border-radius:10px;font-weight:700}
@@ -71,7 +71,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
 html{background:var(--bg);scroll-behavior:smooth}
 body{min-height:100vh;-webkit-tap-highlight-color:transparent;overscroll-behavior-y:none}
 button,a,input,select,textarea{touch-action:manipulation}
-.app-shell{min-height:0}
+.app-shell{min-height:100vh}
 .app-header{background:linear-gradient(145deg,#5b21b6 0%,#7c3aed 55%,#9333ea 100%);padding:calc(12px + env(safe-area-inset-top)) 16px 18px;color:#fff;position:sticky;top:0;z-index:20;box-shadow:0 5px 20px #4c1d9530}
 .app-header-row{display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:1050px;margin:auto}
 .app-brand{display:flex;align-items:center;gap:11px;min-width:0}.app-logo{width:42px;height:42px;border-radius:14px;background:#ffffff24;border:1px solid #ffffff35;display:grid;place-items:center;font-size:23px;box-shadow:inset 0 1px #fff3}.app-title{font-size:20px;font-weight:850;line-height:1.1}.app-subtitle{font-size:12px;opacity:.82;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px}
@@ -358,16 +358,51 @@ const WEEK_MENU=[
 ];
 
 const WORKOUTS={
-"Lunes — Glúteos + cuádriceps":[
- ["Hip thrust",4,"8–10"],["Sentadilla",4,"8–10"],["Prensa",3,"10–12"],["Desplantes",3,"10 por pierna"],["Extensión de cuádriceps",3,"12–15"],["Abducción",3,"15–20"]],
-"Martes — Espalda + bíceps":[
- ["Jalón al pecho",4,"8–12"],["Remo sentado",4,"8–12"],["Remo con mancuerna",3,"10–12"],["Pullover en polea",3,"12–15"],["Curl de bíceps con barra",3,"10–12"],["Curl martillo",3,"10–12"]],
-"Miércoles — Femoral + glúteos":[
- ["Peso muerto rumano",4,"8–10"],["Curl femoral",4,"10–12"],["Hip thrust",3,"8–12"],["Zancadas",3,"10 por pierna"],["Patada de glúteo en polea",3,"12–15"],["Abducción",3,"15–20"]],
-"Jueves — Pecho + hombros + tríceps":[
- ["Press de pecho",4,"8–10"],["Press inclinado con mancuernas",3,"10–12"],["Press de hombros",3,"8–10"],["Elevaciones laterales",4,"12–15"],["Face pull",3,"12–15"],["Push down con cuerda en polea alta",3,"12–15"]],
-"Viernes — Pierna completa":[
- ["Sentadilla o prensa",4,"8–10"],["Hip thrust",4,"8–10"],["Peso muerto rumano",3,"10"],["Step-up",3,"10 por pierna"],["Curl femoral",3,"10–12"],["Abducción",3,"15–20"]]
+"Lunes — Tren inferior":[
+ ["Calentamiento tren inferior",1,"Calentamiento"],
+ ["Peso muerto",3,"6–8"],
+ ["Hip thrust",3,"10–13"],
+ ["Sentadilla búlgara",3,"8–10 por pierna"],
+ ["Hiperextensión en banco plano",3,"12–15"],
+ ["Patada de glúteo cruzada",8,"10"],
+ ["Abducción con body band o máquina",3,"100"]],
+"Martes — Tren superior":[
+ ["Calentamiento tren superior",1,"Calentamiento"],
+ ["Press inclinado en Smith",3,"8–10"],
+ ["Elevaciones laterales",3,"12–15"],
+ ["Remo con mancuernas",4,"8–12"],
+ ["Fondo de tríceps",3,"10–12"],
+ ["Curl de bíceps con barra",3,"10–12"],
+ ["Jalón al pecho con agarre cerrado",4,"8–12"],
+ ["Plancha dinámica",3,"Al fallo"]],
+"Miércoles — Tren inferior":[
+ ["Calentamiento tren inferior",1,"Calentamiento"],
+ ["Abducción con banda de resistencia",2,"30"],
+ ["Patada con body band",2,"30"],
+ ["Aducción en máquina",2,"30"],
+ ["SDL / peso muerto",4,"10–12"],
+ ["Curl femoral acostado",4,"15–20"],
+ ["Sentadilla sumo a doble pulso",4,"10–12"],
+ ["Hiperextensión para glúteo",1,"6 pesado + 8 medio + 10 ligero, sin descanso"]],
+"Jueves — Tren superior":[
+ ["Calentamiento tren superior",1,"Calentamiento"],
+ ["Dominadas con banda elástica",2,"8–10"],
+ ["Remo con barra prono",4,"8–10"],
+ ["Press militar con mancuernas",4,"12–15"],
+ ["Elevaciones laterales con mancuernas",3,"12–15"],
+ ["Remo al cuello",3,"12–15"],
+ ["Push ups en Smith",3,"12"],
+ ["Pec deck",3,"12–15"],
+ ["Curl de bíceps con barra",3,"12–15"],
+ ["Pushdown con cuerda en polea alta",3,"12–15"]],
+"Viernes — Tren inferior":[
+ ["Calentamiento tren inferior",1,"Calentamiento"],
+ ["Sentadilla en Smith o libre",4,"8–10"],
+ ["Prensa",4,"12–15"],
+ ["Extensión de pierna unilateral",4,"12–15 por pierna"],
+ ["Sentadilla búlgara por pierna en banco",3,"8–10"],
+ ["Hip thrust",4,"10–12"],
+ ["Patada cruzada en polea",8,"10"]]
 };
 
 function menuKey(date,meal){return date+"|"+meal}
@@ -478,7 +513,38 @@ const EX_INFO={
 "Face pull":{tips:"Lleva la cuerda hacia la cara separando las manos y manteniendo los hombros controlados.",video:"https://www.youtube.com/results?search_query=face+pull+proper+form",images:"https://www.google.com/search?tbm=isch&q=face+pull+proper+form"},
 "Push down con cuerda en polea alta":{tips:"Mantén los codos cerca del torso y extiende los codos sin balancear el cuerpo.",video:"https://www.youtube.com/results?search_query=rope+triceps+pushdown+proper+form",images:"https://www.google.com/search?tbm=isch&q=rope+triceps+pushdown+proper+form"},
 "Step-up":{tips:"Apoya todo el pie en el banco/cajón, empuja con la pierna que está arriba y controla la bajada.",video:"https://www.youtube.com/results?search_query=step+up+exercise+proper+form",images:"https://www.google.com/search?tbm=isch&q=step+up+exercise+proper+form"},
-"Sentadilla o prensa":{tips:"Usa la variante indicada por tu gimnasio y prioriza rango cómodo, estabilidad y control.",video:"https://www.youtube.com/results?search_query=squat+or+leg+press+proper+form",images:"https://www.google.com/search?tbm=isch&q=squat+leg+press+proper+form"}
+"Sentadilla o prensa":{tips:"Usa la variante indicada por tu gimnasio y prioriza rango cómodo, estabilidad y control.",video:"https://www.youtube.com/results?search_query=squat+or+leg+press+proper+form",images:"https://www.google.com/search?tbm=isch&q=squat+leg+press+proper+form"},
+"Calentamiento tren inferior":{tips:"Realiza una serie de calentamiento con movimiento controlado y carga ligera, preparando cadera, rodillas y tobillos.",video:"https://www.youtube.com/results?search_query=lower+body+warm+up+gym",images:"https://www.google.com/search?tbm=isch&q=lower+body+warm+up+gym"},
+"Calentamiento tren superior":{tips:"Realiza una serie ligera de calentamiento para hombros, espalda, pecho y brazos antes de las series de trabajo.",video:"https://www.youtube.com/results?search_query=upper+body+warm+up+gym",images:"https://www.google.com/search?tbm=isch&q=upper+body+warm+up+gym"},
+"Peso muerto":{tips:"Mantén la espalda neutra, acerca la carga al cuerpo y realiza una bisagra de cadera controlada. Comienza con una carga que domines.",video:"https://www.youtube.com/results?search_query=conventional+deadlift+proper+form",images:"https://www.google.com/search?tbm=isch&q=conventional+deadlift+proper+form"},
+"Sentadilla búlgara":{tips:"Coloca el pie trasero en un banco, baja con control y mantén la rodilla delantera alineada con el pie.",video:"https://www.youtube.com/results?search_query=bulgarian+split+squat+proper+form",images:"https://www.google.com/search?tbm=isch&q=bulgarian+split+squat+proper+form"},
+"Hiperextensión en banco plano":{tips:"Apoya la cadera de forma estable, mantén la espalda neutra y extiende la cadera sin hiperextender la zona lumbar.",video:"https://www.youtube.com/results?search_query=back+extension+flat+bench+proper+form",images:"https://www.google.com/search?tbm=isch&q=back+extension+flat+bench+proper+form"},
+"Patada de glúteo cruzada":{tips:"Lleva la pierna hacia atrás y cruzada de forma controlada, manteniendo el tronco y la pelvis estables.",video:"https://www.youtube.com/results?search_query=cross+cable+glute+kickback+proper+form",images:"https://www.google.com/search?tbm=isch&q=cross+cable+glute+kickback+proper+form"},
+"Abducción con body band o máquina":{tips:"Separa las piernas con control y mantén tensión constante en los glúteos; evita rebotes.",video:"https://www.youtube.com/results?search_query=band+hip+abduction+proper+form",images:"https://www.google.com/search?tbm=isch&q=band+hip+abduction+proper+form"},
+"Press inclinado en Smith":{tips:"Ajusta el banco con una inclinación moderada, mantén escápulas estables y baja la barra de forma controlada.",video:"https://www.youtube.com/results?search_query=smith+machine+incline+bench+press+proper+form",images:"https://www.google.com/search?tbm=isch&q=smith+machine+incline+bench+press+proper+form"},
+"Remo con mancuernas":{tips:"Mantén el torso estable y lleva los codos hacia atrás sin girar el cuerpo.",video:"https://www.youtube.com/results?search_query=dumbbell+row+proper+form",images:"https://www.google.com/search?tbm=isch&q=dumbbell+row+proper+form"},
+"Fondo de tríceps":{tips:"Mantén los hombros controlados y flexiona/extiende los codos sin balancearte.",video:"https://www.youtube.com/results?search_query=triceps+dips+proper+form",images:"https://www.google.com/search?tbm=isch&q=triceps+dips+proper+form"},
+"Jalón al pecho con agarre cerrado":{tips:"Lleva el agarre hacia la parte alta del pecho manteniendo el torso estable y evitando impulsos.",video:"https://www.youtube.com/results?search_query=close+grip+lat+pulldown+proper+form",images:"https://www.google.com/search?tbm=isch&q=close+grip+lat+pulldown+proper+form"},
+"Plancha dinámica":{tips:"Mantén el abdomen activo y la pelvis estable mientras realizas el movimiento. Detente cuando pierdas la técnica.",video:"https://www.youtube.com/results?search_query=dynamic+plank+proper+form",images:"https://www.google.com/search?tbm=isch&q=dynamic+plank+proper+form"},
+"Abducción con banda de resistencia":{tips:"Mantén tensión en la banda durante todo el recorrido y evita mover el tronco.",video:"https://www.youtube.com/results?search_query=resistance+band+hip+abduction+proper+form",images:"https://www.google.com/search?tbm=isch&q=resistance+band+hip+abduction+proper+form"},
+"Patada con body band":{tips:"Fija la banda con seguridad y lleva la pierna atrás con control, sin arquear la espalda.",video:"https://www.youtube.com/results?search_query=band+glute+kickback+proper+form",images:"https://www.google.com/search?tbm=isch&q=band+glute+kickback+proper+form"},
+"Aducción en máquina":{tips:"Mantén la espalda apoyada y junta las piernas de manera controlada, sin golpes al regresar.",video:"https://www.youtube.com/results?search_query=hip+adduction+machine+proper+form",images:"https://www.google.com/search?tbm=isch&q=hip+adduction+machine+proper+form"},
+"SDL / peso muerto":{tips:"Realiza una bisagra de cadera manteniendo la espalda neutra y la carga cerca del cuerpo.",video:"https://www.youtube.com/results?search_query=stiff+leg+deadlift+proper+form",images:"https://www.google.com/search?tbm=isch&q=stiff+leg+deadlift+proper+form"},
+"Curl femoral acostado":{tips:"Mantén la pelvis estable y flexiona las rodillas de manera controlada durante todo el recorrido.",video:"https://www.youtube.com/results?search_query=lying+leg+curl+proper+form",images:"https://www.google.com/search?tbm=isch&q=lying+leg+curl+proper+form"},
+"Sentadilla sumo a doble pulso":{tips:"Coloca los pies en postura amplia, baja con control y realiza dos pulsos cortos manteniendo tensión antes de subir.",video:"https://www.youtube.com/results?search_query=sumo+squat+pulse+proper+form",images:"https://www.google.com/search?tbm=isch&q=sumo+squat+pulse+proper+form"},
+"Hiperextensión para glúteo":{tips:"Piensa en extender la cadera y apretar glúteos, manteniendo la espalda neutra. En tu serie usa las tres cargas indicadas sin descanso.",video:"https://www.youtube.com/results?search_query=glute+focused+back+extension+proper+form",images:"https://www.google.com/search?tbm=isch&q=glute+focused+back+extension+proper+form"},
+"Dominadas con banda elástica":{tips:"Usa la banda como asistencia, inicia con las escápulas y lleva el pecho hacia la barra sin balancearte.",video:"https://www.youtube.com/results?search_query=band+assisted+pull+up+proper+form",images:"https://www.google.com/search?tbm=isch&q=band+assisted+pull+up+proper+form"},
+"Remo con barra prono":{tips:"Inclina el torso con espalda neutra, lleva la barra hacia el abdomen y controla la bajada.",video:"https://www.youtube.com/results?search_query=barbell+bent+over+row+proper+form",images:"https://www.google.com/search?tbm=isch&q=barbell+bent+over+row+proper+form"},
+"Press militar con mancuernas":{tips:"Mantén el abdomen firme, muñecas neutras y empuja las mancuernas verticalmente sin arquear la espalda.",video:"https://www.youtube.com/results?search_query=dumbbell+shoulder+press+proper+form",images:"https://www.google.com/search?tbm=isch&q=dumbbell+shoulder+press+proper+form"},
+"Elevaciones laterales con mancuernas":{tips:"Levanta las mancuernas hasta una altura cómoda con codos ligeramente flexionados y sin impulso.",video:"https://www.youtube.com/results?search_query=dumbbell+lateral+raise+proper+form",images:"https://www.google.com/search?tbm=isch&q=dumbbell+lateral+raise+proper+form"},
+"Remo al cuello":{tips:"Usa un rango cómodo y controlado, manteniendo los hombros relajados y evitando forzar el movimiento.",video:"https://www.youtube.com/results?search_query=upright+row+proper+form",images:"https://www.google.com/search?tbm=isch&q=upright+row+proper+form"},
+"Push ups en Smith":{tips:"Coloca la barra a una altura que permita una flexión estable, mantén cuerpo alineado y baja el pecho con control.",video:"https://www.youtube.com/results?search_query=smith+machine+push+up+proper+form",images:"https://www.google.com/search?tbm=isch&q=smith+machine+push+up+proper+form"},
+"Pec deck":{tips:"Ajusta el asiento para que los brazos queden cómodos y junta las manos con control sin encoger los hombros.",video:"https://www.youtube.com/results?search_query=pec+deck+proper+form",images:"https://www.google.com/search?tbm=isch&q=pec+deck+proper+form"},
+"Pushdown con cuerda en polea alta":{tips:"Mantén los codos cerca del cuerpo y extiende los brazos controladamente sin balancear el torso.",video:"https://www.youtube.com/results?search_query=rope+triceps+pushdown+proper+form",images:"https://www.google.com/search?tbm=isch&q=rope+triceps+pushdown+proper+form"},
+"Sentadilla en Smith o libre":{tips:"Mantén los pies firmes, rodillas alineadas con los pies y controla el descenso y el ascenso.",video:"https://www.youtube.com/results?search_query=smith+machine+squat+proper+form",images:"https://www.google.com/search?tbm=isch&q=smith+machine+squat+proper+form"},
+"Extensión de pierna unilateral":{tips:"Ajusta el aparato para que la rodilla quede alineada con el eje, extiende una pierna con control y evita rebotes.",video:"https://www.youtube.com/results?search_query=single+leg+extension+proper+form",images:"https://www.google.com/search?tbm=isch&q=single+leg+extension+proper+form"},
+"Sentadilla búlgara por pierna en banco":{tips:"Apoya el pie trasero en el banco, desciende con control y empuja con la pierna de trabajo.",video:"https://www.youtube.com/results?search_query=bulgarian+split+squat+proper+form",images:"https://www.google.com/search?tbm=isch&q=bulgarian+split+squat+proper+form"},
+"Patada cruzada en polea":{tips:"Lleva la pierna hacia atrás y cruzada con control, manteniendo estable la pelvis.",video:"https://www.youtube.com/results?search_query=cross+cable+kickback+proper+form",images:"https://www.google.com/search?tbm=isch&q=cross+cable+kickback+proper+form"}
 };
 function escHtml(value){
  return String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
@@ -544,7 +610,7 @@ function clearData(){if(confirm('¿Borrar todos los registros? Esta acción no s
 let deferredInstallPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e;const b=$('installBtn');if(b){b.style.display='block';b.onclick=async()=>{if(!deferredInstallPrompt)return;deferredInstallPrompt.prompt();await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;b.style.display='none';};}});
 window.addEventListener('appinstalled',()=>{const b=$('installBtn');if(b)b.style.display='none';});
-if('serviceWorker' in navigator && location.protocol!=='file:'){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=5').then(r=>r.update()).catch(()=>{}));}
+if('serviceWorker' in navigator && location.protocol!=='file:'){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=6').then(r=>r.update()).catch(()=>{}));}
 function hideSplash(){const s=$('splash');if(s)s.classList.add('hide')}
 function bootApp(){
  try{
